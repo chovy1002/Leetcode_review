@@ -1,0 +1,31 @@
+class Solution:
+    def minDifference(self, n: int, k: int) -> List[int]:
+        def dfs(num: int, parts: int) -> tuple:
+            if parts == 1:
+                return(num, )
+
+            min_diff = float('inf')
+            best_factors = None
+
+            for i in range(1, int(num ** 0.5) + 1):
+                if num % i == 0:
+                    quotient = num // i
+
+                    remain_factors = dfs(quotient, parts - 1)
+
+                    curr_factors = (i, ) + remain_factors
+
+                    sort_factors = tuple(sorted(curr_factors))
+
+                    diff = sort_factors[-1] - sort_factors[0]
+
+                    if diff < min_diff:
+                        min_diff = diff
+                        best_factors = sort_factors
+
+                        if min_diff == 0:
+                            break
+
+            return best_factors
+
+        return list(dfs(n, k))
