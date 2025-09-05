@@ -1,5 +1,6 @@
 class Solution:
     def minDifference(self, n: int, k: int) -> List[int]:
+        # 使用DFS找最佳解
         def dfs(num: int, parts: int) -> tuple:
             if parts == 1:
                 return(num, )
@@ -10,19 +11,18 @@ class Solution:
             for i in range(1, int(num ** 0.5) + 1):
                 if num % i == 0:
                     quotient = num // i
-
+                    # 將 quotient 再拆成 parts-1 個因數
                     remain_factors = dfs(quotient, parts - 1)
-
+                    # 加上當前的因數 i，組成完整的因數組合
                     curr_factors = (i, ) + remain_factors
-
+                    # 排序後，透過 max - min 找出最小差距 (最佳解組合)
                     sort_factors = tuple(sorted(curr_factors))
-
                     diff = sort_factors[-1] - sort_factors[0]
 
                     if diff < min_diff:
                         min_diff = diff
                         best_factors = sort_factors
-
+                        # 0 means the perfect
                         if min_diff == 0:
                             break
 
