@@ -1,0 +1,19 @@
+# O(n) Dynamic Programming & Kadane’s Algorithm
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        # store Max & Min 因為需考慮負負得正
+        Max = nums[0]
+        Min = nums[0]
+        Ans = nums[0]
+
+        for num in nums[1:]:
+            # 遇到負數，轉換 Max & Min
+            if num < 0:
+                Max, Min = Min, Max
+            
+            Max = max(num, Max * num)
+            Min = min(num, Min * num)
+
+            Ans = max(Max, Ans)
+
+        return Ans
