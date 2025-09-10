@@ -1,0 +1,16 @@
+# O(1)
+class Solution:
+    def getSum(self, a: int, b: int) -> int:
+        # 限制 a & b 在32位整數
+        a &= 0xffffffff
+        b &= 0xffffffff
+        # while b means b != 0 表示有進位要處理
+        while b:
+            # 計算進位 A & B 皆為 1
+            c = (a & b) << 1
+            # 無進位加法 (XOR)，並限制在32位整數
+            a = (a ^ b) & 0xffffffff
+            # 更新 b 為進位後整數
+            b = c & 0xffffffff
+        # if < 0x80000000 means 正數:直接回傳；>= means 負數: 轉換成負數表示回傳
+        return a if a < 0x80000000 else ~(a ^ 0xffffffff)
