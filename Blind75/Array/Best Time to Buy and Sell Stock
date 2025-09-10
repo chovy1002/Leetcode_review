@@ -1,13 +1,16 @@
+# O(n)
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
         Max = 0
         left = 0
         right = 1
-
+        # double pointer
         while right < len(prices):
+            # 計算利潤並更新Max
             curr = prices[right] - prices[left]
             if prices[left] < prices[right]:
                 Max = max(Max, curr)
+            # 賣 > 買 : go next day
             else:
                 left = right
             right += 1
