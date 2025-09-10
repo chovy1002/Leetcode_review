@@ -1,0 +1,11 @@
+# O(n)
+class Solution:
+    def maxSubArray(self, nums: List[int]) -> int:
+        curr = nums[0]
+        Max = nums[0]
+        # Kadane’s Algorithm (維持子陣列curr的最大值；如果變小就重新計算)
+        for num in nums[1:]:
+            curr = max(num, curr + num)
+            Max = max(Max, curr)
+
+        return Max
