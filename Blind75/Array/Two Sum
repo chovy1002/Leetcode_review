@@ -1,9 +1,14 @@
+# O(n)
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
+        # hash dict store num & index
         hash_map = {}
         for i, num in enumerate(nums):
+            # 計算另一數
             tmp = target - num
+            # if 另一數 in dict 回傳
             if tmp in hash_map:
                 return [hash_map[tmp], i]
+            # else store 另一數 to dict
             hash_map[num] = i
         
