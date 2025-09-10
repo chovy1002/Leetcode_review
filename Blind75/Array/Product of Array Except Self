@@ -1,12 +1,14 @@
+# O(n)
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         ans = [0] * len(nums)
         pre = 1
         post = 1
-
+        # 左邊所有元素的乘積
         for i in range(len(nums)):
             ans[i] = pre
             pre *= nums[i]
+        # 右邊所有元素乘進去
         for i in range(len(nums) - 1, -1, -1):
             ans[i] *= post
             post *= nums[i]
