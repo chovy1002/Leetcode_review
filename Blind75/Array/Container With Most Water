@@ -1,0 +1,17 @@
+# O(n) Two Pointer
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        Max = 0
+        left = 0
+        right = len(height) - 1
+
+        while left < right:
+            Sum = min(height[left], height[right]) * (right - left)
+            Max = max(Max, Sum)
+
+            # 移動較矮的柱子，因為高度限制了水量
+            if height[left] < height[right]:
+                left += 1
+            else:
+                right -= 1
+        return Max 
