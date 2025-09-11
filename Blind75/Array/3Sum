@@ -1,0 +1,37 @@
+# O(n log n) Two pointer
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        # 先排序，方便去掉重覆與雙指標處理
+        nums.sort()
+
+        for i in range(len(nums) - 2):
+            # 避免 i 重複
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
+
+            # 雙指標
+            left, right = i + 1, len(nums) - 1
+            while left < right:
+                total = nums[i] + nums[left] + nums[right]
+                # 找到一組解
+                if total == 0:
+                    res.append([nums[i], nums[left], nums[right]])
+                    # 跳過重複元素，避免結果重複
+                    while left < right and nums[left] == nums[left + 1]:
+                        left += 1
+                    while left < right and nums[right] == nums[right - 1]:
+                        right -= 1
+
+                    # 移動指標繼續找下一組
+                    left += 1
+                    right -= 1
+
+                # 太小 → 左指標右移（增加總和）
+                elif total < 0:
+                    left += 1
+                # 太大 → 右指標左移（減少總和）
+                else:
+                    right -= 1
+
+        return res
