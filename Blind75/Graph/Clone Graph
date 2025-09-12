@@ -1,0 +1,32 @@
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val = 0, neighbors = None):
+        self.val = val
+        self.neighbors = neighbors if neighbors is not None else []
+"""
+
+# O(V + E) V: node數量， E: edge數量
+from typing import Optional
+class Solution:
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+        if not node:
+            return None
+
+        # 使用一個 transfer（dict）來 記錄原始節點 → 複製節點的映射。
+        transfer = {}
+        def dfs(node):
+            # 如果這個節點已經被複製過，直接回傳。
+            if node in transfer:
+                return transfer[node]
+
+            # 建立新節點副本，值與原節點相同
+            copy = Node(node.val)
+            transfer[node] = copy
+
+            # 遍歷原節點的所有鄰居 i，遞迴呼叫 dfs(i)，把複製好的鄰居加入 copy.neighbors
+            for i in node.neighbors:
+                copy.neighbors.append(dfs(i))
+            return copy
+
+        return dfs(node)
