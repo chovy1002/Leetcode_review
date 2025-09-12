@@ -1,0 +1,22 @@
+# O(len(s) * len(wordDict) * max(len(w))
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        # 建立 DP 陣列，長度為 len(s)+1
+        dp = [False] * (len(s) + 1)
+        # 空字串可以被拆分
+        dp[0] = True
+
+        for i in range(1, len(s) + 1):
+            for w in wordDict:
+                # 可能的開始位置
+                start = i - len(w)
+                # 三個條件：
+                # 1. start >= 0 (單詞長度不能超過 i)
+                # 2. dp[start] 為 True (代表前面已經可拆分成功)
+                # 3. s[start:i] == w (從 start 到 i 的子字串剛好等於單詞 w)
+                if start >= 0 and dp[start] and s[start:i] == w:
+                    dp[i] = True
+                    break
+
+        # 最後一個位置代表整個字串是否可拆分
+        return dp[-1]
