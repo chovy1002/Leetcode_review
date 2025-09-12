@@ -1,0 +1,16 @@
+# O(amount * len(coins))
+class Solution:
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        # 初始化 DP 陣列，長度為 amount+1 ， amount+1 當作「比任何可能最少硬幣都大的數」
+        dp_coin = [amount + 1] * (amount + 1)
+        dp_coin[0] = 0
+        
+        for i in range(1, (amount + 1)):
+            for c in coins:
+                # 確保硬幣 c 可以用來湊 i
+                if i - c >= 0:
+                    # dp[i] = 湊出金額 i 所需的最少硬幣數；1 + dp[i-c] means 先用一枚 c，剩下湊 i-c 的最少數量，再加上原本這一枚
+                    dp_coin[i] = min(dp_coin[i], 1 + dp_coin[i - c])
+        
+        # 若無法湊出，min_coins[amount] 會保持在初始化值 (amount+1)
+        return dp_coin[-1] if dp_coin[-1] != amount + 1 else -1
