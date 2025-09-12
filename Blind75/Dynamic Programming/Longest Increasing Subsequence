@@ -1,0 +1,23 @@
+# O(n log n) Patience Sorting & Binary Search
+class Solution:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        dp = [0] * len(nums)
+        Max = 0
+
+        for i in nums:
+            # 在 [0, Max] 區間二分搜尋
+            m, n = 0, Max
+            while m != n:
+                mid = (m + n) // 2
+
+                # i 可以接在 dp[mid] 後面 → 去右半區間找
+                if dp[mid] < i:
+                    m = mid + 1
+                # i 比 tails[mid] 小或相等 → 更新更左邊的位置
+                else:
+                    n = mid
+            # 更新位置 m 的值
+            dp[m] = i
+            Max = max(m + 1, Max)
+        return Max
+
