@@ -1,0 +1,36 @@
+# O(V + E)  check cycle detection in directed graph
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        Graph = defaultdict(list)
+
+        # 建圖
+        for course, pre in prerequisites:
+            Graph[course].append(pre)
+
+        # check cycle
+        visited = set()
+
+        def dfs(course):
+            # 如果該課程沒有前置要求，直接可完成
+            if not Graph[course]:
+                return True
+            # 如果在同一路徑上又遇到自己 → 有循環
+            if course in visited:
+                return False
+
+            visited.add(course)
+
+            # 檢查所有前置課程
+            for p in Graph[course]:
+                if not dfs(p):
+                    return False
+
+            # 清空 prerequisites，最佳化
+            Graph[course] = []
+            return True
+        
+        for course in range(numCourses):
+            if not dfs(course):
+                return False
+
+        return True
