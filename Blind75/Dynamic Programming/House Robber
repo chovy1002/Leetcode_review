@@ -1,0 +1,19 @@
+# O(n)
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        # 只有一間就回傳
+        if len(nums) == 1:
+            return nums[0]
+
+        dp = [0] * len(nums)
+        dp[0] = nums[0]
+        # case: 只有兩間，找出最大
+        dp[1] = max(nums[0], nums[1])
+
+        for i in range(2, len(nums)):
+            # 取最大值
+            # 不搶第 i 間房子 → dp[i - 1]；
+            # 搶第 i 間房子 → nums[i] + dp[i - 2]；
+            dp[i] = max(dp[i - 1], nums[i] + dp[i - 2])
+
+        return dp[-1]
