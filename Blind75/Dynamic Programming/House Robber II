@@ -1,0 +1,24 @@
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        # House Robber I 一樣function
+        def houseRobber(nums):
+            dp = [0] * len(nums)
+
+            dp[0] = nums[0]
+            dp[1] = max(nums[0], nums[1])
+
+            for i in range(2, len(nums)):
+                dp[i] = max(dp[i - 1], nums[i] + dp[i - 2])
+
+            return dp[-1]
+
+        if len(nums) == 0:
+            return 0
+        elif len(nums) == 1:
+            return nums[0]
+        elif len(nums) == 2:
+            return max(nums[0], nums[1])
+        else:
+            # 差別 (搶第一間，不能搶最後一間 → 考慮 nums[:-1])
+            # 差別 (不搶第一間，可以搶最後一間 → 考慮 nums[1:])
+            return max(houseRobber(nums[:-1]), houseRobber(nums[1:]))
