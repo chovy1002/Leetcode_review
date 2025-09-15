@@ -1,0 +1,13 @@
+# O(n) Greedy(由後往回推)
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        Target = len(nums) - 1
+
+        for i in range(len(nums) - 2, -1, -1):
+            # 只要能到達 i，就一定能到最後
+            if i + nums[i] >= Target:
+                Target = i
+
+        if Target == 0:
+            return True
+        return False
