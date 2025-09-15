@@ -1,0 +1,37 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# O(n log k) n: 節點數；k: linked list 數 (似 devide and conquer: 問題拆分，每次減半)
+class Solution:
+    # 同 Merge two Sorted Lists
+    def mergetwoLists(self, List1, List2):
+        curr = dummy = ListNode()
+        while List1 and List2:
+            if List1.val < List2.val:
+                curr.next = List1
+                List1 = List1.next
+            else:
+                curr.next = List2
+                List2 = List2.next
+            curr = curr.next
+        if List1:
+            curr.next = List1
+        if List2:
+            curr.next = List2
+        return dummy.next
+            
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        if not lists:
+            return None
+        # 假設數量大於 1，則每次兩兩一組做 merge
+        while len(lists) > 1:
+            merge = []
+            for i in range(0, len(lists), 2):
+                list1 = lists[i]
+                list2 = lists[i + 1] if i + 1 < len(lists) else None
+                merge.append(self.mergetwoLists(list1, list2))
+            lists = merge
+        
+        return lists[0]
