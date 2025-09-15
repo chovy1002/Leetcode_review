@@ -1,0 +1,26 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# O(n)
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        # dummy 指向 反轉後的 Llink head
+        dummy = None
+        # curr 用來走訪原本的 Link
+        curr = head
+
+        while curr:
+            # 暫存下一個節點，避免斷掉
+            tmp = curr.next
+            # 把當前節點的 next 指向「反轉後的 Link」
+            curr.next = dummy
+            # 更新 dummy，讓它成為新的head
+            dummy = curr
+            # 移動到下一個節點
+            curr = tmp
+
+        return dummy
+
+        
