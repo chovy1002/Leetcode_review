@@ -1,0 +1,13 @@
+# O(m * n)
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        # 用 1 初始化最外行跟列 (只有1種路徑會到)
+        dp = [[1] * n for _ in range(m)]
+
+        # 填表 (第[i, j]格的路徑數 = 從上方來 + 從左邊來的路徑數)
+        for i in range(1, m):
+            for j in range(1, n):
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+
+        # 回傳最右下方的路徑數
+        return dp[1][-1]
