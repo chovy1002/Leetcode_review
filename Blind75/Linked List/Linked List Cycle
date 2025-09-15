@@ -1,0 +1,24 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+# O(n) Double Pointer (Fast & Slow)
+class Solution:
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        fast, slow = head, head
+
+        # Fast 一次走兩步；Slow 一次走一步；
+        # 如果 Fast 會追上 Slow 表示有 cycle
+        while fast is not None and fast.next is not None:
+            slow = slow.next
+            fast = fast.next.next
+
+            if slow == fast:
+                return True
+            
+        return False
+        
+        
+        
