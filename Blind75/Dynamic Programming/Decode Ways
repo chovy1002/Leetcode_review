@@ -1,0 +1,25 @@
+# O(n)
+class Solution:
+    def numDecodings(self, s: str) -> int:
+        # 0開頭直接回傳(無法decode)
+        if s[0] == '0':
+            return 0
+
+        dp = [0] * (len(s) + 1)
+        # 第一個不是 '0'，就只有一種方式。
+        dp[0], dp[1] = 1, 1
+
+        for i in range(2, (len(s) + 1)):
+            # 檢查一位數的數字
+            One = int(s[i - 1])
+            # 檢查兩位數的數字
+            Two = int(s[i - 2: i])
+
+            # 一位數介於 1 ~ 9 (可以被decode)
+            if One > 0 and One < 10:
+                dp[i] += dp[i - 1]
+            # 兩位數介於 10 ~ 26 (可以被decode)
+            if Two > 9 and Two < 27:
+                dp[i] += dp[i - 2]
+
+        return dp[len(s)]
