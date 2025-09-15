@@ -1,0 +1,34 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+# O(n)
+class Solution:
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        """
+        Do not return anything, modify head in-place instead.
+        """
+        # First part: 透過快慢 pointer 找到 linked list 的中間點
+        fast, slow = head, head
+        while fast.next and fast.next.next:
+            fast = fast.next.next
+            slow = slow.next
+
+        # Second part: Reverse 後半部分的 linked list
+        prev, curr = None, slow.next
+        while curr:
+            Next = curr.next
+            curr.next = prev
+            prev = curr
+            curr = Next
+        slow.next = None
+
+        # Third part: 將 reverse 的 linked list 和前面的 linked list 合併
+        head1, head2 = head, prev
+        # 因為 head1 >= head2 (快慢 pointer: 奇數前面大；偶數一樣大)
+        while head2:
+            Next = head1.next
+            head1.next = head2
+            head1 = head2
+            head2 = Next
