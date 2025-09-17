@@ -1,0 +1,24 @@
+# O(n) Sliding Window + Hash set 
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        Max = 0
+        Hash = set()
+        # 視窗左邊界
+        left = 0
+
+        # 視窗右邊界，逐步擴展
+        for right in range(len(s)):
+            # 如果新字元沒出現過，加入 set
+            if s[right] not in Hash:
+                Hash.add(s[right])
+                # 更新最大子字串長度
+                Max = max(Max, right - left + 1)
+            else:
+                # 有重複: while 迴圈把左邊字串移出 Hash，右移直到新字元可被放入
+                # 始終保持 Hash 內不會有重複字元
+                while s[right] in Hash:
+                    Hash.remove(s[left])
+                    left += 1
+                Hash.add(s[right])
+
+        return Max
