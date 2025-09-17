@@ -1,0 +1,33 @@
+# 兩種做法 (DFS & BFS)
+# 差別: (時間複雜度均相同: 每個節點均走過一次)
+# 空間複雜度 (DFS: O(h)，h 為樹高度(worse case: 鍊狀 -> O(n)； best case: 平衡樹 -> O(log n)))
+# 空間複雜度 (BFS: O(w)，w 為樹最寬的寬度(worse case: O(n)))
+# DFS
+# DFS O(n)
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+
+        # recursion， 1 為當前層數 + 左右子節點的最大深度
+        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+
+# BFS (n)
+class Solution:
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+
+        queue = deque([root])
+        depth = 0
+
+        while queue:
+            for _ in range(len(queue)):
+                node = queue.popleft()
+                if node.left:
+                    queue.append(node.left)
+                if node.right:
+                    queue.append(node.right)
+            depth += 1
+
+        return depth
