@@ -1,0 +1,36 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+# O(n) BFS
+class Solution:
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        if not root:
+            return []
+
+        ans = []
+
+        # 初始化 queue，先放 root
+        q = deque()
+        q.append(root)
+
+        while q:
+            tmp = []
+            # 處理當前這層的所有節點
+            for _ in range(len(q)):
+                node = q.popleft()
+
+                if node:
+                    # 當前這層的節點蒐集到tmp
+                    tmp.append(node.val)
+                    # 左右子節點放進 q 等下一層作處理
+                    if node.left:
+                        q.append(node.left)
+                    if node.right:
+                        q.append(node.right)
+            # 把這一層的節點放進 ans
+            ans.append(tmp)
+
+        return ans
