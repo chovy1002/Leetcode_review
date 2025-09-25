@@ -1,0 +1,49 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+# O(n)
+class Codec:
+
+    # BFS 將 tree 節點值轉成 str 儲存 
+    def serialize(self, root):
+        if not root:
+            return 'null'
+
+        ans = []
+        q = deque([root])
+
+        while q:
+            node = q.popleft()
+            if node:
+                ans.append(str(node.val))
+                q.append(node.left)
+                q.append(node.right)
+            else:
+                ans.append('null')
+        return ','.join(ans)
+        
+
+    # BFS 把儲存的 str 轉回 Tree
+    def deserialize(self, data):
+        if data == 'null':
+            return None
+        node = data.split(',')
+        root = TreeNode(int(node[0]))
+        q = deque([root])
+        i = 1
+
+        while q:
+            curr = q.popleft()
+            if i < len(node) and node[i] != 'null':
+                curr.left = TreeNode(int(node[i]))
+                q.append(curr.left)
+            i += 1
+            if i < len(node) and node[i] != 'null':
+                curr.right = TreeNode(int(node[i]))
+                q.append(curr.right)
+            i += 1
+        return root
