@@ -1,5 +1,4 @@
-# O(n log k)
-# min heap
+# O(n log k) min heap
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
         heap = []
