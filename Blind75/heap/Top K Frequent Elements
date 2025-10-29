@@ -1,0 +1,20 @@
+# O(n log k)
+class Solution:
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        # 計算每個數字出現的頻率
+        count = Counter(nums)
+        # 建立一個最小堆 (min-heap)
+        heap = []
+
+        for num, frequence in count.items():
+            # 以頻率為主排序
+            heapq.heappush(heap, (frequence, num))
+
+            # 若堆大小超過 k，移除最小頻率的元素
+            if len(heap) > k:
+                heapq.heappop(heap)
+
+        # 取出堆中剩下的數字（即前 k 高頻的)
+        result = [num for (frequence, num) in heap]
+
+        return result
