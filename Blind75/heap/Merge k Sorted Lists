@@ -5,7 +5,7 @@ class Solution:
         dummy = ListNode()
         tail = dummy
 
-        # ⃣ 把每個鏈結的第一個節點放進 heap
+        # 把每個鏈結的第一個節點放進 heap
         for i, node in enumerate(lists):
             if node:
                 heapq.heappush(heap, (node.val, i, node))
