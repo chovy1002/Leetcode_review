@@ -1,0 +1,22 @@
+# O(n log k)
+# min heap
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        heap = []
+        dummy = ListNode()
+        tail = dummy
+
+        # ⃣ 把每個鏈結的第一個節點放進 heap
+        for i, node in enumerate(lists):
+            if node:
+                heapq.heappush(heap, (node.val, i, node))
+
+        # 不斷從 heap 取出最小值，接上 ans
+        while heap:
+            val, i, node = heapq.heappop(heap)
+            tail.next = node
+            tail = tail.next
+            if node.next:
+                heapq.heappush(heap, (node.next.val, i, node.next))
+
+        return dummy.next
