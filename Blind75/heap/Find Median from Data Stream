@@ -1,0 +1,44 @@
+# O(log n) Two Heap
+class MedianFinder:
+
+    def __init__(self):
+        # 左半邊，存負數 (用負數處理大的，因 heap 只有 min-heap)
+        self.MaxHeap = []
+        # 右半邊，存正數
+        self.MinHeap = []
+
+    # 存數字:
+    # 1. 放到 maxHeap
+    # 2. 如果左半邊最大值比右半邊最小值大 → 移動到右半邊
+    # 3. 維持 maxHeap ≥ minHeap，且 maxHeap 最多比 minHeap 多 1
+    def addNum(self, num: int) -> None:
+        # 先加入 maxHeap（左半邊）
+        heapq.heappush(self.MaxHeap, -num)
+
+        # 確保 maxHeap 最大 <= minHeap 最小
+        if self.MinHeap and(-self.MaxHeap[0] > self.MinHeap[0]):
+            val = -heapq.heappop(self.MaxHeap)
+            heapq.heappush(self.MinHeap, val)
+
+        # 平衡兩個堆的大小
+        if len(self.MaxHeap) < len(self.MinHeap):
+            val = heapq.heappop(self.MinHeap)
+            heapq.heappush(self.MaxHeap, -val)
+        elif len(self.MaxHeap) > len(self.MinHeap) + 1:
+            val = -heapq.heappop(self.MaxHeap)
+            heapq.heappush(self.MinHeap, val)
+
+    # 找數字:
+    # 1. 奇數個數 → 中位數 = maxHeap 頂
+    # 2. 偶數個數 → 中位數 = (maxHeap 頂 + minHeap 頂) / 2
+    def findMedian(self) -> float:
+        
+        if len(self.MaxHeap) > len(self.MinHeap):
+            return -self.MaxHeap[0]
+        else:
+            return (-self.MaxHeap[0] + self.MinHeap[0]) / 2
+
+# Your MedianFinder object will be instantiated and called as such:
+# obj = MedianFinder()
+# obj.addNum(num)
+# param_2 = obj.findMedian()
